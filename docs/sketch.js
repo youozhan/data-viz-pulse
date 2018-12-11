@@ -21,7 +21,7 @@ function preload() {
 
 function setup() {
   c = createCanvas(windowWidth, windowHeight);
-  angleMode(DEGREES);
+//   angleMode(DEGREES);
 
   soundFile.play();
 
@@ -33,16 +33,31 @@ function setup() {
 
 function draw() {
     background(0);
+    var dia = 120;
+    strokeWeight (0.5);
+    stroke (255, 12);
+    angleMode(RADIANS);
+    for (var i = 0; i < 9000; i++){
+
+        strokeWeight (random (0.25, 0.7));
+        var angle1 = random (TWO_PI), angle2 = random (TWO_PI);
+        var p1 = new p5.Vector(width/2 + cos (angle1) * dia, height/2 + sin (angle1) * dia);
+        var p2 = new p5.Vector(width/2 + cos (angle2) * dia, height/2 + sin (angle2) * dia);
+    
+        line (p1.x, p1.y, p2.x, p2.y);
+  }
     var vol=amplitude.getLevel();
     detectBeat(vol);
 
     volhistory.push(vol);
-    stroke(255); 
+
     strokeWeight(1.25);
+    stroke(255); 
     noFill();
 
     translate(width/2, height/2);
     beginShape();
+    angleMode(DEGREES);
     for (var i = 0; i<360; i++){
         var r = map(volhistory[i], 0, 0.5, 40, 800);
         var x = r * cos(i);
@@ -76,47 +91,5 @@ function detectBeat(level){
 function onBeat(){
     // Fill(255);
     ellipse(width/2, height/2, random(20,50));
-    // noFill();
 }
-
-//   var level = amplitude.getLevel();
-//   text('Amplitude: ' + level, 20, 20);
-//   text('mapMax: ' + mapMax, 20, 40);
-
-  // map ellipse height
-//   var ellipseHeight = map(level, 0, mapMax, height, 0);
-//   ellipse(100, ellipseHeight-100, frameCount%120/4);
-//   ellipse(200, ellipseHeight-100, sin(frameCount%60));
-//   ellipse(300, ellipseHeight-100, frameCount%60);
-//   ellipse(400, ellipseHeight-100, sin(frameCount%60)*sin(frameCount%60*1));
-//   ellipse(500, ellipseHeight-100, frameCount%60);
-//   ellipse(600, ellipseHeight-100, sin(frameCount%60));
-//   ellipse(700, ellipseHeight-100, frameCount%60);
-//   ellipse(800, ellipseHeight-100, sin(frameCount%60));
-//   ellipse(900, ellipseHeight-100, frameCount%60);
-//   ellipse(1000, ellipseHeight-100, sin(frameCount%60));
-//   ellipse(1100, ellipseHeight-100, frameCount%60);
-//   ellipse(1200, ellipseHeight-100, sin(frameCount%60));
-//   ellipse(1300, ellipseHeight-100, frameCount%60);
-
-// }
-
-// function setup() {
-//     createCanvas(1024, 768);
-//     background(255);
-//     noFill();
-//     frameRate(6);
-//   }
-  
-//   function draw() {
-//     background(255);
-//     noStroke();
-//     fill(200, 200);
-
-//     ellipse(100, 100, frameCount%6*10);
-//     ellipse(200, 100, sin(frameCount)*60);
-//     ellipse(300, 100, cos(frameCount)*60);
-//     ellipse(400, 100, sin(frameCount)*cos(frameCount)*60);
-    
-//   }
 
