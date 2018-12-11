@@ -1,6 +1,6 @@
 /*
- * getLevel() from the p5.Amplitude object
- * and map it to the ellipse position.
+ * https://www.openprocessing.org/sketch/525068
+ * https://github.com/therewasaguy/p5-music-viz
  */
 
 var soundFile;
@@ -32,7 +32,7 @@ function setup() {
 }
 
 function draw() {
-    background(0);
+    background(5);
     var dia = 120;
     strokeWeight (0.5);
     stroke (255, 12);
