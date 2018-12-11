@@ -53,8 +53,6 @@ function setup() {
     } else if(frameCount%4==3){
         ellipse(480, 100, 90, 90);
     }
-
-
     
   }
 
