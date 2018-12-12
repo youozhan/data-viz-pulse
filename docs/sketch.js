@@ -1,12 +1,19 @@
-/*
+/* Reference code
  * https://www.openprocessing.org/sketch/525068
  * https://github.com/therewasaguy/p5-music-viz
  */
 
+
 var soundFile;
 var amplitude;
+var font;
+var img;
 
 var volhistory = [];
+var x = [];
+x.length = 360;
+var y = [];
+y.length = 360;
 
 var beatHoldFrames = 30;
 var beatThreshold = 0.05;
@@ -16,28 +23,32 @@ var framesSinceLastBeat = 0;
 
 function preload() {
   // load the sound, but don't play it yet
-  soundFile = loadSound('Fly_me_to_the_moon.mp3')
+  soundFile = loadSound('assets/Fly_me_to_the_moon.mp3');
+  font = loadFont('assets/Lato-Regular.ttf');
+  img = loadImage('assets/noun_Music_1988957.png');
 }
 
 function setup() {
   c = createCanvas(windowWidth, windowHeight);
-//   angleMode(DEGREES);
-
   soundFile.play();
 
   amplitude = new p5.Amplitude();
   amplitude.setInput(soundFile);
   amplitude.smooth(0.5); // <-- try this!
 
+  textFont(font);
+
 }
 
 function draw() {
-    background(5);
+    background(5, 200);
     var dia = 120;
     strokeWeight (0.5);
     stroke (255, 12);
     angleMode(RADIANS);
-    for (var i = 0; i < 9000; i++){
+
+    // draw the moon
+    for (var i = 0; i < 4500; i++){
 
         strokeWeight (random (0.25, 0.7));
         var angle1 = random (TWO_PI), angle2 = random (TWO_PI);
@@ -46,24 +57,44 @@ function draw() {
     
         line (p1.x, p1.y, p2.x, p2.y);
   }
+
     var vol=amplitude.getLevel();
+
+    // text('Amplitude: ' + vol, 20, 20);
+    fill(255, 160);
+    textSize(14);
+    text('SOUND EXPERIMENT', 40, height - 54);
+    fill(255, 200);
+    textSize(12);
+    text('An audio visualization based on amplitude', 40, height - 34);
+    fill(255, 160);
+    textSize(12);
+    text('Fly Me to the Moon (2:30)', width - 180, height - 52);
+    fill(255, 160);
+    text('Frank Sinatra', width - 180, height - 34);
+    image(img, width - 226, height - 62);
+
     detectBeat(vol);
 
     volhistory.push(vol);
 
     strokeWeight(1.25);
-    stroke(255); 
+    stroke(255);
     noFill();
 
     translate(width/2, height/2);
+
     beginShape();
     angleMode(DEGREES);
-    for (var i = 0; i<360; i++){
-        var r = map(volhistory[i], 0, 0.5, 40, 800);
+
+    for (var i = 0; i<volhistory.length; i++){
+        var r = map(volhistory[i], 0, 0.5, 300, 600);
         var x = r * cos(i);
         var y = r * sin(i);  
-        vertex(x,y);
+
+        curveVertex(x,y);
     }
+
     endShape();
 
     if(volhistory.length > 360){
@@ -74,7 +105,6 @@ function draw() {
 
 function detectBeat(level){
     if(level > beatCutoff && level > beatThreshold){
-        onBeat();
         beatCutoff = level *1.2;
         framesSinceLastBeat = 0;
     } else{
@@ -86,10 +116,5 @@ function detectBeat(level){
             beatCutoff = Math.max(beatCutoff, beatThreshold);
         }
     } 
-}
-
-function onBeat(){
-    // Fill(255);
-    ellipse(width/2, height/2, random(20,50));
 }
 
