@@ -48,6 +48,8 @@ function draw() {
         line (p1.x, p1.y, p2.x, p2.y);
   }
     var vol=amplitude.getLevel();
+    fill(255);
+    text('Amplitude: ' + vol, 20, 20);
     detectBeat(vol);
 
     volhistory.push(vol);
@@ -59,23 +61,24 @@ function draw() {
     translate(width/2, height/2);
     beginShape();
     angleMode(DEGREES);
-    for (var i = 0; i<360; i++){
-        var r = map(volhistory[i], 0, 0.5, 40, 800);
+    for (var i = 0; i<volhistory.length; i++){
+        var r = map(volhistory[i], 0, 0.5, 300, 600);
         var x = r * cos(i);
         var y = r * sin(i);  
-        vertex(x,y);
+        curveVertex(x,y);
     }
     endShape();
 
     if(volhistory.length > 360){
         volhistory.splice(0,1);
+
     } 
 
 }
 
 function detectBeat(level){
     if(level > beatCutoff && level > beatThreshold){
-        onBeat();
+        // onBeat();
         beatCutoff = level *1.2;
         framesSinceLastBeat = 0;
     } else{
@@ -91,6 +94,6 @@ function detectBeat(level){
 
 function onBeat(){
     // Fill(255);
-    ellipse(width/2, height/2, random(20,50));
+    // ellipse(width/2, height/2, random(20,50));
 }
 
