@@ -66,7 +66,7 @@ function draw() {
     text('SOUND EXPERIMENT', 40, height - 54);
     fill(255, 200);
     textSize(12);
-    text('An audio visualization based on amplitude', 40, height - 34);
+    text('An audio visualization based on the amplitude', 40, height - 34);
     fill(255, 160);
     textSize(12);
     text('Fly Me to the Moon (2:30)', width - 180, height - 52);
